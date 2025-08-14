@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: metagold
+    env: python
+    plan: free
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py collectstatic --noinput || true
+    startCommand: gunicorn metagold.wsgi --log-file -
+    envVars:
+      - key: RAZORPAY_KEY_ID
+        sync: false
+      - key: RAZORPAY_KEY_SECRET
+        sync: false
+      - key: DJANGO_SECRET_KEY
+        sync: false
+      - key: ALLOWED_HOSTS
+        sync: false
